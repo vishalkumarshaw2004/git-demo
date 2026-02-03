@@ -1,0 +1,48 @@
+<project name="Demo" default="jar" basedir=".">
+
+    <!-- ===== Properties ===== -->
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir" value="${build.dir}/jar"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="main.class" value="com.training.Main"/>
+
+    <!-- ===== Clean ===== -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+	<!-- ===== Init ===== -->
+	 <target name="init">
+	        <mkdir dir="${lib.dir}"/>
+	    </target>
+	
+	
+    <!-- ===== Compile ===== -->
+    <target name="compile" depends="clean">
+        <mkdir dir="${classes.dir}"/>
+
+        <javac srcdir="${src.dir}"
+               destdir="${classes.dir}"
+               includeantruntime="false"
+               debug="true">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="*.jar"/>
+            </classpath>
+        </javac>
+    </target>
+	
+    <!-- ===== JAR ===== -->
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+    	
+
+        <jar destfile="${jar.dir}/MyJavaProject.jar" basedir="${classes.dir}">
+        	<zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+</project>
